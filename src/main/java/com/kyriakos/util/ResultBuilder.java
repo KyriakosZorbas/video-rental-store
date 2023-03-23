@@ -20,6 +20,9 @@ public class ResultBuilder {
     @Autowired
     Movie movie;
 
+    @Autowired
+    Helper helper;
+
     public String buildResultForRentMovies(ArrayList<MovieEntity> movieEntities) throws JsonProcessingException {
 
         Movies movies = new Movies();
@@ -52,6 +55,42 @@ public class ResultBuilder {
         return result;
     }
 
+    public String buildResultForReturnMovies(ArrayList<MovieEntity> movieEntities, String dateOfRent) throws JsonProcessingException, ParseException {
+
+        Movies movies = new Movies();
+        ArrayList<Movie> moviesList = new ArrayList<>();
+        String dateNow = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+
+        int moviesTotalPrice = 0;
+
+
+        Iterator<MovieEntity> it = movieEntities.iterator();
+        while (it.hasNext()) {
+
+            MovieEntity movieEntity = it.next();
+
+            Movie tempMovie = new Movie();
+            tempMovie.setName(movieEntity.getName());
+            tempMovie.setType(movieEntity.getType());
+            int delay = helper.calculateDelay(dateOfRent,dateNow,movieEntity.getType());
+            tempMovie.setDelay(delay);
+            int price = helper.calculatePrice(delay, movieEntity.getPrice());
+            tempMovie.setPrice(price);
+
+            moviesList.add(tempMovie);
+            moviesTotalPrice = moviesTotalPrice + price;
+
+        }
+
+        movies.setMovies(moviesList);
+        movies.setTotalPrice(moviesTotalPrice);
+        movies.setCurrency("SEK");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String result = objectMapper.writeValueAsString(movies);
+
+        return result;
+    }
 
     public String buildResultForGetMovieByID(MovieEntity movieEntity) throws JsonProcessingException {
 

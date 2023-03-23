@@ -48,7 +48,10 @@ public class MovieController {
         return movieService.rentMovies(movies);
     }
 
-
-
+    /*Returning films and calculating possible surcharges.*/
+    @PostMapping("/movies/return")
+    public ResponseEntity<String> returnMovies(@RequestBody Movies movies) throws JsonProcessingException, ParseException {
+        return movieService.returnMovies(movies);
+    }
 
 }

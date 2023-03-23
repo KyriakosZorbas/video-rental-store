@@ -74,6 +74,30 @@ public class MovieService {
 
     }
 
+    /* Check if the returned movies need extra charge due to delay. */
+    public ResponseEntity<String> returnMovies(Movies movies) throws JsonProcessingException, ParseException {
+
+        /*Check the provided input for missing parameters*/
+        if (validator.checkMovieStructure(movies, true).getStatusCode() != HttpStatus.OK) {
+            return validator.checkMovieStructure(movies, true);
+        }
+
+        /* Validate if the requested movies exist in the database. */
+        ResponseEntity<String> validateMovies = checkMovies(movies);
+        if (!(validateMovies.getStatusCode() == HttpStatus.OK)) {
+            return validateMovies;
+        }
+
+        String dateOfRent = movies.getDateOfRent();
+
+        /* Get movies from the database. and construct the response*/
+        String response = resultBuilder.buildResultForReturnMovies(getMovies(movies), dateOfRent);
+
+        /* Return the response if all the validations have passed successfully */
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
+
     /* Save or Update a movie in the database. */
     public ResponseEntity<String> saveOrUpdate(MovieEntity movieEntity) throws JsonProcessingException {
 

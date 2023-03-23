@@ -30,6 +30,20 @@ public class Validator {
                     .body(rentMoviesApplicationException.getErrorForEmptyParameterExceptionTextMessage("rent"));
         }
 
+        if (returned) {
+            if (movies.getDateOfRent() == null) {
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                        .body(rentMoviesApplicationException.getErrorForMissingParameterExceptionTextMessage("dateOfRent"));
+            }
+
+            if (checkDate(movies.getDateOfRent()) == false) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(rentMoviesApplicationException.getErrorForWrongDateFormatParameterExceptionTextMessage("dateOfRent"));
+            }
+
+        }
+
+
         return new ResponseEntity<>("OK", HttpStatus.OK);
 
 
@@ -59,6 +73,20 @@ public class Validator {
 
     }
 
+    /* Check if the provided date of rent follows the correct pattern */
+    public Boolean checkDate(String dateOfRent) {
+
+        try {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate.parse(dateOfRent, dateTimeFormatter).atStartOfDay();
+        } catch (java.time.format.DateTimeParseException dateTimeParseException) {
+
+            return false;
+        }
+
+        return true;
+
+    }
 
 
 }
