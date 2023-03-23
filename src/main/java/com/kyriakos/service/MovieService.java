@@ -23,13 +23,35 @@ public class MovieService {
     MovieRepository movieRepository;
 
     @Autowired
+    ResultBuilder resultBuilder;
+
+    @Autowired
+    RentMoviesApplicationException rentMoviesApplicationException;
+
+    @Autowired
     Validator validator;
+
+
 
     /* Return all the movies from the database. */
     public List<MovieEntity> getAllMovies() {
         List<MovieEntity> movieEntities = new ArrayList<MovieEntity>();
         movieRepository.findAll().forEach(movie -> movieEntities.add(movie));
         return movieEntities;
+    }
+
+    /* Find a movie in the database by its id. */
+    public ResponseEntity<String> getMovieById(int id) throws JsonProcessingException {
+
+        try {
+            String response = resultBuilder.buildResultForGetMovieByID(movieRepository.findById(id).get());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (java.util.NoSuchElementException noSuchElementException) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(rentMoviesApplicationException.getErrorForMovieNotExistForSpecificIDExceptionTextMessage(id));
+        }
+
     }
 
 

@@ -24,4 +24,11 @@ public class MovieController {
         return movieService.getAllMovies();
     }
 
+    /*Search a movie by its ID , in the database and return it*/
+    @GetMapping("/movie/{id}")
+    public ResponseEntity<String> getMovie(@PathVariable("id") int id) throws JsonProcessingException {
+        return movieService.getMovieById(id);
+    }
+
+
 }
