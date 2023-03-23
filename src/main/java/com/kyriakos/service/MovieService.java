@@ -54,5 +54,21 @@ public class MovieService {
 
     }
 
+    public ResponseEntity<String> deleteMovieById(int id) throws JsonProcessingException {
+
+        /* Validate if the requested movies exist in the database. */
+        if (getMovieById(id).getStatusCode() == HttpStatus.NOT_FOUND) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(rentMoviesApplicationException.getErrorForMovieNotExistForSpecificIDExceptionTextMessage(id));
+        }
+
+        movieRepository.deleteById(id);
+
+        /* Return the response if all the validations have passed successfully */
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("{\"info\":\"The movie with id : " + id + " has been deleted.\"}");
+
+    }
+
 
 }

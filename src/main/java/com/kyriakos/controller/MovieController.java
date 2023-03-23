@@ -30,5 +30,11 @@ public class MovieController {
         return movieService.getMovieById(id);
     }
 
+    /*Delete a movie by its ID in the database*/
+    @DeleteMapping("/movie/{id}")
+    public ResponseEntity<String> deleteMovie(@PathVariable("id") int id) throws JsonProcessingException {
+        return movieService.deleteMovieById(id);
+    }
+
 
 }
