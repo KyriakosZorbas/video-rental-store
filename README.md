@@ -2,7 +2,6 @@
 
 ## Description
 This is a sample server for a video rental store for managing the rental administration.
-
 ## Prerequisites
 
 * Java 8
@@ -156,15 +155,18 @@ If we want to add authentication we can use a third-party tool named [Auth0](htt
 
 ## Notes
 
-Regarding this solution for conviniece ,the user must also enter the date on which the films were rented in order to determine if there was a delay that would warrant charging him extra.This will be corrected in the subsequent update, which will also include a new feature that will record information about consumers, including what they have rented and when. Also a new feature will be to add Authentication/Authorisation for the API which for simplicity is not implemented in this release.
+Regarding this solution for convenience ,the user must also enter the date on which the films were rented in order to determine if there was a delay that would warrant charging him extra.This will be corrected in the subsequent update, which will also include a new feature that will record information about consumers, including what they have rented and when. Also a new feature will be to add Authentication/Authorisation for the API which for simplicity is not implemented in this release. Furthermore,the system doesn't support multiple currencies. Finally, the app doesn't keep track of how many movies have been rented, regarding that, a new feature will be implemented so that we can find out that information since the database should be updated if the video store runs out of physical copies.
 
 ## Future work
 As a future work the following enhancements could be done :
 
 * Add a new feature that will keep info about the customers and what they have rent.
 * Dockerize the project and deploy it among H2 database.
+* Add track of physical copies.
 * Use other database rather than in-memory database like H2 that we used in this project.
 * Split the endpoints so that there are separate ones for administrators and for regular users.
-* Add Authentication/Authorisation
+* Add more multiple currencies.
+* Add Authentication/Authorisation.
+* Add more currencies.
 * Add more endpoints.
 * Add more tests.
