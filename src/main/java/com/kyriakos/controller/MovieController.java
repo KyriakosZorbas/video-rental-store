@@ -36,5 +36,11 @@ public class MovieController {
         return movieService.deleteMovieById(id);
     }
 
+    /* Add a movie in the database */
+    @PostMapping("/movie")
+    public ResponseEntity<String> addMovie(@RequestBody MovieEntity movieEntity) throws JsonProcessingException {
+        return movieService.saveOrUpdate(movieEntity);
+    }
+
 
 }

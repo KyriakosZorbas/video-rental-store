@@ -25,6 +25,11 @@ public class ResultBuilder {
         return getString(movieEntity);
     }
 
+    public String buildResultForAddMovie(MovieEntity movieEntity) throws JsonProcessingException {
+
+        String result = "{\"info\":\"The following movie has been created.\",\"movie\":"+getString(movieEntity)+"}";
+        return result;
+    }
 
 
     private String getString(MovieEntity movieEntity) throws JsonProcessingException {

@@ -71,4 +71,29 @@ public class MovieService {
     }
 
 
+    /* Save or Update a movie in the database. */
+    public ResponseEntity<String> saveOrUpdate(MovieEntity movieEntity) throws JsonProcessingException {
+
+        /*Check the provided input for missing parameters*/
+        if (validator.checkMovieEntityStructure(movieEntity).getStatusCode() != HttpStatus.OK) {
+            return validator.checkMovieEntityStructure(movieEntity);
+        }
+
+        try {
+
+            movieRepository.save(movieEntity);
+            String result = resultBuilder.buildResultForAddMovie(movieEntity);
+
+            /* Return the response if all the validations have passed successfully */
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(result);
+
+        } catch (org.springframework.dao.DataIntegrityViolationException dataIntegrityViolationException) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("");
+        }
+
+    }
+
+
 }
