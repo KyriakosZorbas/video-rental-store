@@ -20,15 +20,15 @@ public class Helper {
 
 
     /*Calculates the total delay for a movie that has been returned.
-     *
-     *The store has three types of films.
-     * 1. NEW films– For each day rented, the <premium price> is charged.
-     * 2. REGULAR films – A flat price of <basic price> is charged for the 3 days, and then for each additional day <basic price> is charged per day.
-     * 3. OLD films – A flat price of <basic price> is charged for the first 5 days, and then for each additional day <basic price> is charged per day.
-     * <premium price> is 40 SEK
-     * <basic price> is 30 SEK
-     *
-     * */
+    *
+    *The store has three types of films.
+    * 1. NEW films– For each day rented, the <premium price> is charged.
+    * 2. REGULAR films – A flat price of <basic price> is charged for the 3 days, and then for each additional day <basic price> is charged per day.
+    * 3. OLD films – A flat price of <basic price> is charged for the first 5 days, and then for each additional day <basic price> is charged per day.
+    * <premium price> is 40 SEK
+    * <basic price> is 30 SEK
+    *
+    * */
     public int calculateDelay(String dateOfRent,String dateNow,String type){
 
         MovieType movieType = MovieType.valueOf(type.toUpperCase());
