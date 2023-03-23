@@ -2,7 +2,7 @@
 
 ## Description
 This is a sample server for a video rental store for managing the rental administration.
-when returning.
+
 ## Prerequisites
 
 * Java 8
