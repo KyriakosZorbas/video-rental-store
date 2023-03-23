@@ -1,0 +1,191 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server for a video rental store for managing the rental administration."
+  version: "1.0.0"
+  title: "Movie Store Api"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "zorbaskyriakos@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:8080"
+basePath: "/api"
+paths:
+  /movies:
+    get:
+      tags:
+        - "Movie store endpoints"
+      summary: "Get all movies that exist in the store's database."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Invalid input"
+  /movie/{movieId}:
+    get:
+      tags:
+        - "Movie store endpoints"
+      summary: "Find movie by id"
+      description: "Returns a single movie."
+      operationId: "getMovieById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "movieId"
+          in: "path"
+          description: "id of movie to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Invalid id supplied"
+        "404":
+          description: "Movie not found"
+    delete:
+      tags:
+        - "Movie store endpoints"
+      summary: "Deletes a movie"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "movieId"
+          in: "path"
+          description: "Movie id to delete"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Invalid id supplied"
+        "404":
+          description: "Movie not found"
+  /movie:
+    post:
+      tags:
+        - "Movie store endpoints"
+      summary: "Add a movie in store's database."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/movie"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Invalid parameter"
+        "422":
+          description: "Missing parameter"
+        "500":
+          description: "The input json is malformed."
+  /movies/rent:
+    post:
+      tags:
+        - "Movie store endpoints"
+      summary: "Renting one or several films and calculating the price."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/movies-rent"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Invalid parameter"
+        "422":
+          description: "Missing parameter"
+        "500":
+          description: "The input json is malformed."
+  /movies/return:
+    post:
+      tags:
+        - "Movie store endpoints"
+      summary: "Returning films and calculating possible surcharges."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/movies-return"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Invalid parameter"
+        "422":
+          description: "Missing parameter"
+        "500":
+          description: "The input json is malformed."
+definitions:
+  movie:
+    type: "object"
+    required:
+      - "id"
+      - "name"
+      - "type"
+      - "price"
+    properties:
+      id:
+        type: integer
+        example: 1
+      name:
+        type: string
+        example: "Matrix"
+      type:
+        type: string
+        example: "regular"
+      price:
+        type: string
+        example: "30"
+  movies-rent:
+    type: "object"
+    required:
+      - "rent"
+    properties:
+      rent:
+        type: array
+        xml:
+          wrapped: true
+        items:
+          type: string
+        example: ["Matrix","Avatar"]
+  movies-return:
+    type: "object"
+    required:
+      - "rent"
+      - "dateOfRent"
+    properties:
+      rent:
+        type: array
+        xml:
+          wrapped: true
+        items:
+          type: string
+        example: ["Matrix","Avatar"]
+      dateOfRent:
+        type: string
+        example: "15-03-2023"
