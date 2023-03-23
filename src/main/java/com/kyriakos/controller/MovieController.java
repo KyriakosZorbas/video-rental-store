@@ -42,5 +42,13 @@ public class MovieController {
         return movieService.saveOrUpdate(movieEntity);
     }
 
+    /* Renting one or several films and calculating the price. */
+    @PostMapping("/movies/rent")
+    public ResponseEntity<String> rentMovies(@RequestBody Movies movies) throws JsonProcessingException {
+        return movieService.rentMovies(movies);
+    }
+
+
+
 
 }

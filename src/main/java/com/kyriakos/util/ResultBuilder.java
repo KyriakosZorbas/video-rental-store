@@ -20,6 +20,39 @@ public class ResultBuilder {
     @Autowired
     Movie movie;
 
+    public String buildResultForRentMovies(ArrayList<MovieEntity> movieEntities) throws JsonProcessingException {
+
+        Movies movies = new Movies();
+        ArrayList<Movie> moviesList = new ArrayList<>();
+        int moviesTotalPrice = 0;
+
+
+        Iterator<MovieEntity> it = movieEntities.iterator();
+        while (it.hasNext()) {
+
+            MovieEntity movieEntity = it.next();
+
+            Movie tempMovie = new Movie();
+            tempMovie.setName(movieEntity.getName());
+            tempMovie.setPrice(movieEntity.getPrice());
+            tempMovie.setType(movieEntity.getType());
+            tempMovie.setDelay(0);
+            moviesList.add(tempMovie);
+            moviesTotalPrice = moviesTotalPrice + movieEntity.getPrice();
+
+        }
+
+        movies.setMovies(moviesList);
+        movies.setTotalPrice(moviesTotalPrice);
+        movies.setCurrency("SEK");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String result = objectMapper.writeValueAsString(movies);
+
+        return result;
+    }
+
+
     public String buildResultForGetMovieByID(MovieEntity movieEntity) throws JsonProcessingException {
 
         return getString(movieEntity);
@@ -30,7 +63,6 @@ public class ResultBuilder {
         String result = "{\"info\":\"The following movie has been created.\",\"movie\":"+getString(movieEntity)+"}";
         return result;
     }
-
 
     private String getString(MovieEntity movieEntity) throws JsonProcessingException {
 
